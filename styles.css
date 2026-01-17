@@ -84,6 +84,7 @@ canvas {
 
 .hero-svg .shimmer-text {
   fill: url(#text-shimmer);
+  animation: shimmer-sweep 10s ease-in-out infinite;
 }
 
 .globe-shade {
@@ -153,5 +154,17 @@ canvas {
   }
   50% {
     transform: translateY(-8px);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0%,
+  100% {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 0 rgba(148, 163, 184, 0));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(148, 163, 184, 0.2));
   }
 }
