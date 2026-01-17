@@ -24,6 +24,7 @@ const layout = {
   centerYRatio: 0.5,
   radiusRatio: 0.29,
   enableStreams: false,
+  showOutline: false,
 };
 
 const blobPalette = [
@@ -109,7 +110,7 @@ const resizeCanvas = () => {
   state.height = rect.height;
   state.blobs = Array.from({ length: 5 }, (_, index) => createBlob(index));
 
-  const pointCount = Math.floor(rect.width / 6);
+  const pointCount = Math.floor((rect.width / 6) * 0.49);
   state.points = Array.from({ length: pointCount }, createPoint);
 
   if (layout.enableStreams) {
@@ -234,12 +235,14 @@ const drawGlobe = (time) => {
 
   drawStreams(centerX, centerY);
 
-  globeCtx.strokeStyle = "rgba(148, 163, 184, 0.15)";
-  globeCtx.lineWidth = 1;
-  globeCtx.beginPath();
   const globeRadius = Math.min(state.width, state.height) * layout.radiusRatio;
-  globeCtx.ellipse(centerX, centerY, globeRadius, globeRadius, 0, 0, Math.PI * 2);
-  globeCtx.stroke();
+  if (layout.showOutline) {
+    globeCtx.strokeStyle = "rgba(148, 163, 184, 0.15)";
+    globeCtx.lineWidth = 1;
+    globeCtx.beginPath();
+    globeCtx.ellipse(centerX, centerY, globeRadius, globeRadius, 0, 0, Math.PI * 2);
+    globeCtx.stroke();
+  }
 
   state.points.forEach((point) => {
     const projected = projectPoint(point.lat, point.lon, rotation);
