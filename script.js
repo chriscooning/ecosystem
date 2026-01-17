@@ -306,6 +306,173 @@ const drawGlobe = (time) => {
   globeCtx.shadowBlur = 0;
 };
 
+const buildSvgRows = () => {
+  const svg = document.querySelector(".hero-svg");
+  if (!svg) {
+    return;
+  }
+
+  const leftContainer = svg.querySelector("#left-rows");
+  const rightContainer = svg.querySelector("#right-rows");
+  if (!leftContainer || !rightContainer) {
+    return;
+  }
+
+  leftContainer.textContent = "";
+  rightContainer.textContent = "";
+
+  const svgNS = "http://www.w3.org/2000/svg";
+  const createSvgElement = (tag, attrs = {}) => {
+    const element = document.createElementNS(svgNS, tag);
+    Object.entries(attrs).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        element.setAttribute(key, String(value));
+      }
+    });
+    return element;
+  };
+
+  const leftRows = [
+    { label: "Traces", y: 100, begin: 0 },
+    { label: "Spans", y: 128, begin: 0.35 },
+    { label: "Sessions", y: 156, begin: 0.7 },
+    { label: "Metrics", y: 184, begin: 1.05 },
+    { label: "Logs", y: 212, begin: 1.4 },
+    { label: "Alerts", y: 240, begin: 1.75 },
+  ];
+
+  leftRows.forEach((row, index) => {
+    const group = createSvgElement("g");
+
+    const label = createSvgElement("text", {
+      x: 110,
+      y: row.y,
+      fill: "currentColor",
+      "font-size": 7,
+      opacity: 0.4,
+      "dominant-baseline": "middle",
+      "data-left-row": "",
+      class: "shimmer-text",
+    });
+    label.textContent = row.label;
+    group.append(label);
+
+    [150, 162, 174].forEach((x, indexOffset) => {
+      const opacity = [0.12, 0.18, 0.24][indexOffset];
+      group.append(
+        createSvgElement("circle", {
+          cx: x,
+          cy: row.y,
+          r: 3,
+          fill: "currentColor",
+          opacity,
+        })
+      );
+    });
+
+    const movingDot = createSvgElement("circle", {
+      r: 3,
+      fill: "var(--secondary)",
+      opacity: 0,
+    });
+    const motion = createSvgElement("animateMotion", {
+      dur: "3s",
+      begin: `${row.begin}s`,
+      repeatCount: "indefinite",
+      calcMode: "spline",
+      keyTimes: "0;1",
+      keySplines: "0.4 0 0.2 1",
+    });
+    motion.append(
+      createSvgElement("mpath", { href: `#left-path-${index}` })
+    );
+    const opacityAnim = createSvgElement("animate", {
+      attributeName: "opacity",
+      values: "0;0.7;0.4;0",
+      dur: "3s",
+      begin: `${row.begin}s`,
+      repeatCount: "indefinite",
+      keyTimes: "0;0.1;0.7;1",
+    });
+    movingDot.append(motion, opacityAnim);
+    group.append(movingDot);
+
+    leftContainer.append(group);
+  });
+
+  const rightRows = [
+    { label: "Open File Formats", y: 120, begin: 0.5, staticBegin: 0 },
+    { label: "Agent Replays", y: 148, begin: 0.9, staticBegin: 0.3 },
+    { label: "Eval Datasets", y: 176, begin: 1.3, staticBegin: 0.6 },
+    { label: "Feedback Stores", y: 204, begin: 1.7, staticBegin: 0.9 },
+  ];
+
+  rightRows.forEach((row, index) => {
+    const group = createSvgElement("g");
+
+    const movingDot = createSvgElement("circle", {
+      r: 3,
+      fill: "var(--secondary)",
+      opacity: 0,
+    });
+    const motion = createSvgElement("animateMotion", {
+      dur: "2.5s",
+      begin: `${row.begin}s`,
+      repeatCount: "indefinite",
+      calcMode: "spline",
+      keyTimes: "0;1",
+      keySplines: "0.4 0 0.2 1",
+    });
+    motion.append(
+      createSvgElement("mpath", { href: `#output-path-${index}` })
+    );
+    const opacityAnim = createSvgElement("animate", {
+      attributeName: "opacity",
+      values: "0;0.8;0.8;0",
+      dur: "2.5s",
+      begin: `${row.begin}s`,
+      repeatCount: "indefinite",
+      keyTimes: "0;0.1;0.8;1",
+    });
+    movingDot.append(motion, opacityAnim);
+    group.append(movingDot);
+
+    const staticDot = createSvgElement("circle", {
+      cx: 700,
+      cy: row.y,
+      r: 3,
+      fill: "var(--secondary)",
+      opacity: 0.85,
+    });
+    staticDot.append(
+      createSvgElement("animate", {
+        attributeName: "opacity",
+        values: "0.7;0.95;0.7",
+        dur: "3s",
+        begin: `${row.staticBegin}s`,
+        repeatCount: "indefinite",
+      })
+    );
+    group.append(staticDot);
+
+    const label = createSvgElement("text", {
+      x: 708,
+      y: row.y,
+      fill: "currentColor",
+      "font-size": 7,
+      opacity: 0.7,
+      "dominant-baseline": "middle",
+      "font-weight": 500,
+      "data-right-row": "",
+      class: "shimmer-text",
+    });
+    label.textContent = row.label;
+    group.append(label);
+
+    rightContainer.append(group);
+  });
+};
+
 const updateSvgPaths = () => {
   const svg = document.querySelector(".hero-svg");
   if (!svg) {
@@ -321,13 +488,18 @@ const updateSvgPaths = () => {
       .filter((value) => Number.isFinite(value))
       .sort((a, b) => a - b);
 
-  const buildLeftPaths = (rows) => {
+  const buildPaths = ({
+    rows,
+    startX,
+    endX,
+    pathPrefix,
+    guideId,
+    convergeAtStart,
+  }) => {
     if (!rows.length) {
       return;
     }
 
-    const startX = 200;
-    const endX = 290;
     const controlX = startX + (endX - startX) * 0.45;
     const convergeY = rows.reduce((sum, value) => sum + value, 0) / rows.length;
     const spacing = rows.length > 1 ? rows[1] - rows[0] : 0;
@@ -337,56 +509,42 @@ const updateSvgPaths = () => {
 
     rows.forEach((rowY, index) => {
       const offset = mid === 0 ? 0 : (index - mid) / mid;
-      const base = rowY + (convergeY - rowY) * 0.35;
+      const base = convergeAtStart
+        ? convergeY + (rowY - convergeY) * 0.35
+        : rowY + (convergeY - rowY) * 0.35;
       const controlY = base - offset * spacing * taper;
-      const d = `M ${startX} ${rowY} Q ${controlX} ${controlY} ${endX} ${convergeY}`;
-      const path = svg.querySelector(`#left-path-${index}`);
+      const d = convergeAtStart
+        ? `M ${startX} ${convergeY} Q ${controlX} ${controlY} ${endX} ${rowY}`
+        : `M ${startX} ${rowY} Q ${controlX} ${controlY} ${endX} ${convergeY}`;
+      const path = svg.querySelector(`#${pathPrefix}-${index}`);
       if (path) {
         path.setAttribute("d", d);
       }
       guideSegments.push(d);
     });
 
-    const guide = svg.querySelector("#left-guide");
+    const guide = svg.querySelector(guideId);
     if (guide) {
       guide.setAttribute("d", guideSegments.join(" "));
     }
   };
 
-  const buildRightPaths = (rows) => {
-    if (!rows.length) {
-      return;
-    }
-
-    const startX = 610;
-    const endX = 700;
-    const controlX = startX + (endX - startX) * 0.45;
-    const convergeY = rows.reduce((sum, value) => sum + value, 0) / rows.length;
-    const spacing = rows.length > 1 ? rows[1] - rows[0] : 0;
-    const mid = (rows.length - 1) / 2;
-    const taper = 0.6;
-    const guideSegments = [];
-
-    rows.forEach((rowY, index) => {
-      const offset = mid === 0 ? 0 : (index - mid) / mid;
-      const base = convergeY + (rowY - convergeY) * 0.35;
-      const controlY = base - offset * spacing * taper;
-      const d = `M ${startX} ${convergeY} Q ${controlX} ${controlY} ${endX} ${rowY}`;
-      const path = svg.querySelector(`#output-path-${index}`);
-      if (path) {
-        path.setAttribute("d", d);
-      }
-      guideSegments.push(d);
-    });
-
-    const guide = svg.querySelector("#right-guide");
-    if (guide) {
-      guide.setAttribute("d", guideSegments.join(" "));
-    }
-  };
-
-  buildLeftPaths(extractYs(leftLabels));
-  buildRightPaths(extractYs(rightLabels));
+  buildPaths({
+    rows: extractYs(leftLabels),
+    startX: 200,
+    endX: 290,
+    pathPrefix: "left-path",
+    guideId: "#left-guide",
+    convergeAtStart: false,
+  });
+  buildPaths({
+    rows: extractYs(rightLabels),
+    startX: 610,
+    endX: 700,
+    pathPrefix: "output-path",
+    guideId: "#right-guide",
+    convergeAtStart: true,
+  });
 };
 
 const randomizeSvgTimings = () => {
@@ -452,6 +610,7 @@ window.addEventListener("resize", () => {
   resizeCanvas();
   updateSvgPaths();
 });
+buildSvgRows();
 resizeCanvas();
 updateSvgPaths();
 randomizeSvgTimings();
