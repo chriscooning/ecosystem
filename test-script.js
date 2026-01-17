@@ -295,7 +295,7 @@ const drawGlobe = (time) => {
   globeCtx.clearRect(0, 0, state.width, state.height);
   globeCtx.globalCompositeOperation = "lighter";
 
-  const rotation = -time * 0.00018;
+  const rotation = -time * 0.00015;
   const centerX = state.width * layout.centerXRatio + state.pointer.x * 0.6;
   const centerY = state.height * layout.centerYRatio + state.pointer.y * 0.6;
 
@@ -586,7 +586,7 @@ const updateSvgPaths = () => {
     const scale = Math.min(scaleX, scaleY);
     const globeCenterX = viewBox.x + rect.width * layout.centerXRatio * scaleX;
     const globeRadius = Math.min(rect.width, rect.height) * layout.radiusRatio * scale;
-    const inset = 0.97;
+    const inset = 1.05;
     leftConvergeX = globeCenterX - globeRadius * inset;
     rightConvergeX = globeCenterX + globeRadius * inset;
   }
