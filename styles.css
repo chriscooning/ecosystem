@@ -1,0 +1,148 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: #05060b;
+  color: #e6f0ff;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.hero {
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.hero-canvas {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  border-radius: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 20% 20%, rgba(88, 80, 236, 0.08), transparent 70%),
+    radial-gradient(circle at 80% 30%, rgba(56, 189, 248, 0.05), transparent 65%),
+    linear-gradient(135deg, #010104, #000103 60%, #020109);
+  box-shadow: 0 40px 120px rgba(3, 6, 20, 0.75);
+  color: rgba(148, 163, 184, 0.9);
+  --secondary: #38bdf8;
+}
+
+.hero-canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 65% 30%, rgba(148, 163, 184, 0.07), transparent 50%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.hero-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+  opacity: 0.2;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+.globe-shade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 60% 40%, rgba(15, 23, 42, 0.2), rgba(2, 6, 23, 0.8) 65%);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 90px 90px;
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.globe-tabs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.globe-tab {
+  position: absolute;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(226, 232, 240, 0.8);
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.45);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.95);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  white-space: nowrap;
+}
+
+.globe-tab.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.globe-tab.sub-tab {
+  font-size: 10px;
+  padding: 4px 8px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: rgba(226, 232, 240, 0.7);
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(148, 163, 184, 0.15);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
