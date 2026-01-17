@@ -77,6 +77,10 @@ canvas {
   font-family: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
 }
 
+.hero-svg .shimmer-text {
+  fill: url(#text-shimmer);
+}
+
 .globe-shade {
   position: absolute;
   inset: 0;

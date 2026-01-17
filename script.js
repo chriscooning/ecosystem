@@ -109,7 +109,7 @@ const resizeCanvas = () => {
   state.height = rect.height;
   state.blobs = Array.from({ length: 5 }, (_, index) => createBlob(index));
 
-  const pointCount = Math.floor(rect.width / 9);
+  const pointCount = Math.floor(rect.width / 6);
   state.points = Array.from({ length: pointCount }, createPoint);
 
   if (layout.enableStreams) {
@@ -234,7 +234,12 @@ const drawGlobe = (time) => {
 
   drawStreams(centerX, centerY);
 
+  globeCtx.strokeStyle = "rgba(148, 163, 184, 0.15)";
+  globeCtx.lineWidth = 1;
+  globeCtx.beginPath();
   const globeRadius = Math.min(state.width, state.height) * layout.radiusRatio;
+  globeCtx.ellipse(centerX, centerY, globeRadius, globeRadius, 0, 0, Math.PI * 2);
+  globeCtx.stroke();
 
   state.points.forEach((point) => {
     const projected = projectPoint(point.lat, point.lon, rotation);
@@ -301,6 +306,112 @@ const drawGlobe = (time) => {
   globeCtx.shadowBlur = 0;
 };
 
+const updateSvgPaths = () => {
+  const svg = document.querySelector(".hero-svg");
+  if (!svg) {
+    return;
+  }
+
+  const leftLabels = Array.from(svg.querySelectorAll("[data-left-row]"));
+  const rightLabels = Array.from(svg.querySelectorAll("[data-right-row]"));
+
+  const extractYs = (labels) =>
+    labels
+      .map((label) => Number(label.getAttribute("y")))
+      .filter((value) => Number.isFinite(value))
+      .sort((a, b) => a - b);
+
+  const buildLeftPaths = (rows) => {
+    if (!rows.length) {
+      return;
+    }
+
+    const startX = 200;
+    const endX = 290;
+    const controlX = startX + (endX - startX) * 0.45;
+    const convergeY = rows.reduce((sum, value) => sum + value, 0) / rows.length;
+    const spacing = rows.length > 1 ? rows[1] - rows[0] : 0;
+    const mid = (rows.length - 1) / 2;
+    const taper = 0.6;
+    const guideSegments = [];
+
+    rows.forEach((rowY, index) => {
+      const offset = mid === 0 ? 0 : (index - mid) / mid;
+      const base = rowY + (convergeY - rowY) * 0.35;
+      const controlY = base - offset * spacing * taper;
+      const d = `M ${startX} ${rowY} Q ${controlX} ${controlY} ${endX} ${convergeY}`;
+      const path = svg.querySelector(`#left-path-${index}`);
+      if (path) {
+        path.setAttribute("d", d);
+      }
+      guideSegments.push(d);
+    });
+
+    const guide = svg.querySelector("#left-guide");
+    if (guide) {
+      guide.setAttribute("d", guideSegments.join(" "));
+    }
+  };
+
+  const buildRightPaths = (rows) => {
+    if (!rows.length) {
+      return;
+    }
+
+    const startX = 610;
+    const endX = 700;
+    const controlX = startX + (endX - startX) * 0.45;
+    const convergeY = rows.reduce((sum, value) => sum + value, 0) / rows.length;
+    const spacing = rows.length > 1 ? rows[1] - rows[0] : 0;
+    const mid = (rows.length - 1) / 2;
+    const taper = 0.6;
+    const guideSegments = [];
+
+    rows.forEach((rowY, index) => {
+      const offset = mid === 0 ? 0 : (index - mid) / mid;
+      const base = convergeY + (rowY - convergeY) * 0.35;
+      const controlY = base - offset * spacing * taper;
+      const d = `M ${startX} ${convergeY} Q ${controlX} ${controlY} ${endX} ${rowY}`;
+      const path = svg.querySelector(`#output-path-${index}`);
+      if (path) {
+        path.setAttribute("d", d);
+      }
+      guideSegments.push(d);
+    });
+
+    const guide = svg.querySelector("#right-guide");
+    if (guide) {
+      guide.setAttribute("d", guideSegments.join(" "));
+    }
+  };
+
+  buildLeftPaths(extractYs(leftLabels));
+  buildRightPaths(extractYs(rightLabels));
+};
+
+const randomizeSvgTimings = () => {
+  const svg = document.querySelector(".hero-svg");
+  if (!svg) {
+    return;
+  }
+
+  const motions = Array.from(svg.querySelectorAll("animatemotion"));
+  motions.forEach((motion) => {
+    const durAttr = motion.getAttribute("dur") || "3s";
+    const duration = Number(durAttr.replace("s", "")) || 3;
+    const offset = (Math.random() * duration).toFixed(2);
+    motion.setAttribute("begin", `${offset}s`);
+
+    const parent = motion.parentElement;
+    if (parent) {
+      const opacityAnim = parent.querySelector("animate[attributeName='opacity']");
+      if (opacityAnim) {
+        opacityAnim.setAttribute("begin", `${offset}s`);
+      }
+    }
+  });
+};
+
 const updatePointer = () => {
   state.pointer.x += (state.pointer.targetX - state.pointer.x) * 0.06;
   state.pointer.y += (state.pointer.targetY - state.pointer.y) * 0.06;
@@ -337,8 +448,13 @@ container.addEventListener("mouseleave", () => {
   state.pointer.targetY = 0;
 });
 
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener("resize", () => {
+  resizeCanvas();
+  updateSvgPaths();
+});
 resizeCanvas();
+updateSvgPaths();
+randomizeSvgTimings();
 
 if (!prefersReduced.matches) {
   requestAnimationFrame(render);

@@ -13,9 +13,19 @@
           <canvas id="blobCanvas"></canvas>
           <canvas id="globeCanvas"></canvas>
           <svg class="hero-svg" viewBox="0 0 900 480" aria-hidden="true">
+            <defs>
+              <linearGradient id="text-shimmer" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="900" y2="0">
+                <stop offset="0%" stop-color="rgba(148, 163, 184, 0.35)"></stop>
+                <stop offset="45%" stop-color="rgba(148, 163, 184, 0.35)"></stop>
+                <stop offset="50%" stop-color="rgba(226, 232, 240, 0.55)"></stop>
+                <stop offset="55%" stop-color="rgba(148, 163, 184, 0.35)"></stop>
+                <stop offset="100%" stop-color="rgba(148, 163, 184, 0.35)"></stop>
+                <animate attributeName="gradientTransform" values="translate(-900 0);translate(900 0)" dur="14s" repeatCount="indefinite"></animate>
+              </linearGradient>
+            </defs>
             <text x="450" y="24" fill="currentColor" font-size="11" opacity="0.5" font-weight="600" text-anchor="middle">AI ENGINEERING PLATFORM</text>
             <g transform="translate(0, 70)">
-              <text x="32" y="48" fill="currentColor" font-size="8" opacity="0.35" font-weight="500">AI AGENT</text>
+              <text x="110" y="48" fill="currentColor" font-size="8" opacity="0.35" font-weight="500" class="shimmer-text">AI AGENT</text>
               <defs>
                 <path id="left-path-0" d="M 200 100 Q 245 135 290 170"></path>
                 <path id="left-path-1" d="M 200 128 Q 240 150 290 170"></path>
@@ -25,11 +35,10 @@
                 <path id="left-path-5" d="M 200 240 Q 250 200 290 170"></path>
               </defs>
               <g>
-                <text x="32" y="100" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle">Traces</text>
+                <text x="110" y="100" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle" data-left-row class="shimmer-text">Traces</text>
                 <circle cx="150" cy="100" r="3" fill="currentColor" opacity="0.12"></circle>
                 <circle cx="162" cy="100" r="3" fill="currentColor" opacity="0.18"></circle>
                 <circle cx="174" cy="100" r="3" fill="currentColor" opacity="0.24"></circle>
-                <circle cx="186" cy="100" r="3" fill="currentColor" opacity="0.3"></circle>
                 <circle r="3" fill="var(--secondary)" opacity="0">
                   <animatemotion dur="3s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1">
                     <mpath href="#left-path-0"></mpath>
@@ -38,11 +47,10 @@
                 </circle>
               </g>
               <g>
-                <text x="32" y="128" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle">Spans</text>
+                <text x="110" y="128" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle" data-left-row class="shimmer-text">Spans</text>
                 <circle cx="150" cy="128" r="3" fill="currentColor" opacity="0.12"></circle>
                 <circle cx="162" cy="128" r="3" fill="currentColor" opacity="0.18"></circle>
                 <circle cx="174" cy="128" r="3" fill="currentColor" opacity="0.24"></circle>
-                <circle cx="186" cy="128" r="3" fill="currentColor" opacity="0.3"></circle>
                 <circle r="3" fill="var(--secondary)" opacity="0">
                   <animatemotion dur="3s" begin="0.35s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1">
                     <mpath href="#left-path-1"></mpath>
@@ -51,11 +59,10 @@
                 </circle>
               </g>
               <g>
-                <text x="32" y="156" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle">Sessions</text>
+                <text x="110" y="156" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle" data-left-row class="shimmer-text">Sessions</text>
                 <circle cx="150" cy="156" r="3" fill="currentColor" opacity="0.12"></circle>
                 <circle cx="162" cy="156" r="3" fill="currentColor" opacity="0.18"></circle>
                 <circle cx="174" cy="156" r="3" fill="currentColor" opacity="0.24"></circle>
-                <circle cx="186" cy="156" r="3" fill="currentColor" opacity="0.3"></circle>
                 <circle r="3" fill="var(--secondary)" opacity="0">
                   <animatemotion dur="3s" begin="0.7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1">
                     <mpath href="#left-path-2"></mpath>
@@ -64,11 +71,10 @@
                 </circle>
               </g>
               <g>
-                <text x="32" y="184" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle">Metrics</text>
+                <text x="110" y="184" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle" data-left-row class="shimmer-text">Metrics</text>
                 <circle cx="150" cy="184" r="3" fill="currentColor" opacity="0.12"></circle>
                 <circle cx="162" cy="184" r="3" fill="currentColor" opacity="0.18"></circle>
                 <circle cx="174" cy="184" r="3" fill="currentColor" opacity="0.24"></circle>
-                <circle cx="186" cy="184" r="3" fill="currentColor" opacity="0.3"></circle>
                 <circle r="3" fill="var(--secondary)" opacity="0">
                   <animatemotion dur="3s" begin="1.05s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1">
                     <mpath href="#left-path-3"></mpath>
@@ -77,11 +83,10 @@
                 </circle>
               </g>
               <g>
-                <text x="32" y="212" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle">Logs</text>
+                <text x="110" y="212" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle" data-left-row class="shimmer-text">Logs</text>
                 <circle cx="150" cy="212" r="3" fill="currentColor" opacity="0.12"></circle>
                 <circle cx="162" cy="212" r="3" fill="currentColor" opacity="0.18"></circle>
                 <circle cx="174" cy="212" r="3" fill="currentColor" opacity="0.24"></circle>
-                <circle cx="186" cy="212" r="3" fill="currentColor" opacity="0.3"></circle>
                 <circle r="3" fill="var(--secondary)" opacity="0">
                   <animatemotion dur="3s" begin="1.4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1">
                     <mpath href="#left-path-4"></mpath>
@@ -90,11 +95,10 @@
                 </circle>
               </g>
               <g>
-                <text x="32" y="240" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle">Alerts</text>
+                <text x="110" y="240" fill="currentColor" font-size="7" opacity="0.4" dominant-baseline="middle" data-left-row class="shimmer-text">Alerts</text>
                 <circle cx="150" cy="240" r="3" fill="currentColor" opacity="0.12"></circle>
                 <circle cx="162" cy="240" r="3" fill="currentColor" opacity="0.18"></circle>
                 <circle cx="174" cy="240" r="3" fill="currentColor" opacity="0.24"></circle>
-                <circle cx="186" cy="240" r="3" fill="currentColor" opacity="0.3"></circle>
                 <circle r="3" fill="var(--secondary)" opacity="0">
                   <animatemotion dur="3s" begin="1.75s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1">
                     <mpath href="#left-path-5"></mpath>
@@ -102,7 +106,7 @@
                   <animate attributeName="opacity" values="0;0.7;0.4;0" dur="3s" begin="1.75s" repeatCount="indefinite" keyTimes="0;0.1;0.7;1"></animate>
                 </circle>
               </g>
-              <path d="M 200 100 Q 245 135 290 170
+              <path id="left-guide" d="M 200 100 Q 245 135 290 170
                        M 200 128 Q 240 150 290 170
                        M 200 156 Q 235 170 290 170
                        M 200 184 Q 235 178 290 170
@@ -110,14 +114,14 @@
                        M 200 240 Q 250 200 290 170" stroke="currentColor" stroke-width="1" fill="none" opacity="0.04"></path>
             </g>
             <g transform="translate(0, 78)">
-              <text x="680" y="48" fill="currentColor" font-size="8" opacity="0.35" font-weight="500">YOUR DATA</text>
+              <text x="680" y="48" fill="currentColor" font-size="8" opacity="0.35" font-weight="500" class="shimmer-text">YOUR DATA</text>
               <defs>
                 <path id="output-path-0" d="M 610 162 Q 650 165 700 120"></path>
                 <path id="output-path-1" d="M 610 162 Q 650 185 700 148"></path>
                 <path id="output-path-2" d="M 610 162 Q 650 180 700 176"></path>
                 <path id="output-path-3" d="M 610 162 Q 650 175 700 204"></path>
               </defs>
-              <path d="M 610 162 Q 650 165 700 120
+              <path id="right-guide" d="M 610 162 Q 650 165 700 120
                        M 610 162 Q 650 185 700 148
                        M 610 162 Q 650 180 700 176
                        M 610 162 Q 650 175 700 204" stroke="var(--secondary)" stroke-width="1" fill="none" opacity="0.12"></path>
@@ -128,10 +132,10 @@
                   </animatemotion>
                   <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.5s" begin="0.5s" repeatCount="indefinite" keyTimes="0;0.1;0.8;1"></animate>
                 </circle>
-                <circle cx="700" cy="120" r="1.5" fill="var(--secondary)" opacity="0.85">
+                <circle cx="700" cy="120" r="3" fill="var(--secondary)" opacity="0.85">
                   <animate attributeName="opacity" values="0.7;0.95;0.7" dur="3s" begin="0s" repeatCount="indefinite"></animate>
                 </circle>
-                <text x="718" y="120" fill="currentColor" font-size="7" opacity="0.7" dominant-baseline="middle" font-weight="500">Open File Formats</text>
+                <text x="708" y="120" fill="currentColor" font-size="7" opacity="0.7" dominant-baseline="middle" font-weight="500" data-right-row class="shimmer-text">Open File Formats</text>
               </g>
               <g>
                 <circle r="3" fill="var(--secondary)" opacity="0">
@@ -140,10 +144,10 @@
                   </animatemotion>
                   <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.5s" begin="0.9s" repeatCount="indefinite" keyTimes="0;0.1;0.8;1"></animate>
                 </circle>
-                <circle cx="700" cy="148" r="1.5" fill="var(--secondary)" opacity="0.85">
+                <circle cx="700" cy="148" r="3" fill="var(--secondary)" opacity="0.85">
                   <animate attributeName="opacity" values="0.7;0.95;0.7" dur="3s" begin="0.3s" repeatCount="indefinite"></animate>
                 </circle>
-                <text x="718" y="148" fill="currentColor" font-size="7" opacity="0.7" dominant-baseline="middle" font-weight="500">Agent Replays</text>
+                <text x="708" y="148" fill="currentColor" font-size="7" opacity="0.7" dominant-baseline="middle" font-weight="500" data-right-row class="shimmer-text">Agent Replays</text>
               </g>
               <g>
                 <circle r="3" fill="var(--secondary)" opacity="0">
@@ -152,10 +156,10 @@
                   </animatemotion>
                   <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.5s" begin="1.3s" repeatCount="indefinite" keyTimes="0;0.1;0.8;1"></animate>
                 </circle>
-                <circle cx="700" cy="176" r="1.5" fill="var(--secondary)" opacity="0.85">
+                <circle cx="700" cy="176" r="3" fill="var(--secondary)" opacity="0.85">
                   <animate attributeName="opacity" values="0.7;0.95;0.7" dur="3s" begin="0.6s" repeatCount="indefinite"></animate>
                 </circle>
-                <text x="718" y="176" fill="currentColor" font-size="7" opacity="0.7" dominant-baseline="middle" font-weight="500">Eval Datasets</text>
+                <text x="708" y="176" fill="currentColor" font-size="7" opacity="0.7" dominant-baseline="middle" font-weight="500" data-right-row class="shimmer-text">Eval Datasets</text>
               </g>
               <g>
                 <circle r="3" fill="var(--secondary)" opacity="0">
@@ -164,36 +168,36 @@
                   </animatemotion>
                   <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.5s" begin="1.7s" repeatCount="indefinite" keyTimes="0;0.1;0.8;1"></animate>
                 </circle>
-                <circle cx="700" cy="204" r="1.5" fill="var(--secondary)" opacity="0.85">
+                <circle cx="700" cy="204" r="3" fill="var(--secondary)" opacity="0.85">
                   <animate attributeName="opacity" values="0.7;0.95;0.7" dur="3s" begin="0.9s" repeatCount="indefinite"></animate>
                 </circle>
-                <text x="718" y="204" fill="currentColor" font-size="7" opacity="0.7" dominant-baseline="middle" font-weight="500">Feedback Stores</text>
+                <text x="708" y="204" fill="currentColor" font-size="7" opacity="0.7" dominant-baseline="middle" font-weight="500" data-right-row class="shimmer-text">Feedback Stores</text>
               </g>
               <g>
-                <text x="700" y="410" fill="currentColor" font-size="10" opacity="0.5">Data signals → actions</text>
+                <text x="700" y="410" fill="currentColor" font-size="10" opacity="0.5" class="shimmer-text">Data signals → actions</text>
                 <rect x="700" y="424" width="160" height="4" rx="2" fill="currentColor" opacity="0.08"></rect>
                 <rect x="700" y="424" width="24" height="4" rx="2" fill="var(--secondary)" opacity="0.7"></rect>
               </g>
             </g>
-            <text x="870" y="450" fill="currentColor" font-size="9" opacity="0.25" text-anchor="end">Fig. 1.1</text>
+            <text x="870" y="450" fill="currentColor" font-size="9" opacity="0.25" text-anchor="end" class="shimmer-text">Fig. 1.1</text>
           </svg>
           <div class="grid-overlay"></div>
           <div class="globe-shade"></div>
           <div class="globe-tabs" id="globeTabs">
-            <div class="globe-tab" data-lat="15" data-lon="0">Observe</div>
-            <div class="globe-tab sub-tab" data-parent="Observe" data-lat="25" data-lon="20">Instrumentation</div>
-            <div class="globe-tab sub-tab" data-parent="Observe" data-lat="8" data-lon="35">Tracing</div>
-            <div class="globe-tab sub-tab" data-parent="Observe" data-lat="-2" data-lon="10">Monitoring</div>
+            <div class="globe-tab" data-lat="15" data-lon="90">Observe</div>
+            <div class="globe-tab sub-tab" data-parent="Observe" data-lat="25" data-lon="110">Instrumentation</div>
+            <div class="globe-tab sub-tab" data-parent="Observe" data-lat="8" data-lon="125">Tracing</div>
+            <div class="globe-tab sub-tab" data-parent="Observe" data-lat="-2" data-lon="100">Monitoring</div>
 
-            <div class="globe-tab" data-lat="-10" data-lon="120">Evaluate</div>
-            <div class="globe-tab sub-tab" data-parent="Evaluate" data-lat="-20" data-lon="140">Experiments</div>
-            <div class="globe-tab sub-tab" data-parent="Evaluate" data-lat="-2" data-lon="160">Benchmarks</div>
-            <div class="globe-tab sub-tab" data-parent="Evaluate" data-lat="5" data-lon="105">Scoring</div>
+            <div class="globe-tab" data-lat="-10" data-lon="210">Evaluate</div>
+            <div class="globe-tab sub-tab" data-parent="Evaluate" data-lat="-20" data-lon="230">Experiments</div>
+            <div class="globe-tab sub-tab" data-parent="Evaluate" data-lat="-2" data-lon="250">Benchmarks</div>
+            <div class="globe-tab sub-tab" data-parent="Evaluate" data-lat="5" data-lon="195">Scoring</div>
 
-            <div class="globe-tab" data-lat="5" data-lon="240">Improve</div>
-            <div class="globe-tab sub-tab" data-parent="Improve" data-lat="18" data-lon="260">Fine-tune</div>
-            <div class="globe-tab sub-tab" data-parent="Improve" data-lat="0" data-lon="275">Prompting</div>
-            <div class="globe-tab sub-tab" data-parent="Improve" data-lat="-10" data-lon="230">Guardrails</div>
+            <div class="globe-tab" data-lat="5" data-lon="330">Improve</div>
+            <div class="globe-tab sub-tab" data-parent="Improve" data-lat="18" data-lon="350">Fine-tune</div>
+            <div class="globe-tab sub-tab" data-parent="Improve" data-lat="0" data-lon="5">Prompting</div>
+            <div class="globe-tab sub-tab" data-parent="Improve" data-lat="-10" data-lon="310">Guardrails</div>
           </div>
         </div>
       </section>
