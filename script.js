@@ -352,7 +352,7 @@ const buildSvgRows = () => {
       y: row.y,
       fill: "currentColor",
       "font-size": 7,
-      opacity: 0.4,
+      opacity: 0.28,
       "dominant-baseline": "middle",
       "data-left-row": "",
       class: "shimmer-text",
@@ -397,7 +397,17 @@ const buildSvgRows = () => {
       repeatCount: "indefinite",
       keyTimes: "0;0.1;0.7;1",
     });
-    movingDot.append(motion, opacityAnim);
+    const radiusAnim = createSvgElement("animate", {
+      attributeName: "r",
+      values: "3;1.4",
+      dur: "3s",
+      begin: `${row.begin}s`,
+      repeatCount: "indefinite",
+      keyTimes: "0;1",
+      keySplines: "0.4 0 0.2 1",
+      calcMode: "spline",
+    });
+    movingDot.append(motion, opacityAnim, radiusAnim);
     group.append(movingDot);
 
     leftContainer.append(group);
@@ -437,7 +447,17 @@ const buildSvgRows = () => {
       repeatCount: "indefinite",
       keyTimes: "0;0.1;0.8;1",
     });
-    movingDot.append(motion, opacityAnim);
+    const radiusAnim = createSvgElement("animate", {
+      attributeName: "r",
+      values: "1.4;3",
+      dur: "2.5s",
+      begin: `${row.begin}s`,
+      repeatCount: "indefinite",
+      keyTimes: "0;1",
+      keySplines: "0.4 0 0.2 1",
+      calcMode: "spline",
+    });
+    movingDot.append(motion, opacityAnim, radiusAnim);
     group.append(movingDot);
 
     const staticDot = createSvgElement("circle", {
@@ -463,7 +483,7 @@ const buildSvgRows = () => {
       y: row.y,
       fill: "currentColor",
       "font-size": 7,
-      opacity: 0.7,
+      opacity: 0.5,
       "dominant-baseline": "middle",
       "font-weight": 500,
       "data-right-row": "",
